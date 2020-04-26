@@ -71,16 +71,12 @@ public class Lobby_Manager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null,new RoomOptions{MaxPlayers = 2});
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        if(PhotonNetwork.CurrentRoom.PlayerCount == 2) PhotonNetwork.LoadLevel("Main");
-    }
 
     public override void OnJoinedRoom()
     {
         connectionInfo.text = $"{PhotonNetwork.NickName} : Connected With room";
         
-        if(PhotonNetwork.CurrentRoom.PlayerCount == 2) PhotonNetwork.LoadLevel("Main");
+        PhotonNetwork.LoadLevel("Main");
     }
 
 

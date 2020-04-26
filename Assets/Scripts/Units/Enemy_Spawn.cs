@@ -37,6 +37,8 @@ public class Enemy_Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Board_Manager.m_Instance.Stop) return;
+        
         if(count >= Enemys.Length) return;
         FlowTime += Time.deltaTime;
 

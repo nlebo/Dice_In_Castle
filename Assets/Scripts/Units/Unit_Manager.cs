@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Unit_Manager : MonoBehaviour
+
+public class Unit_Manager : MonoBehaviourPun
 {
     // Start is called before the first frame update
     public enum State{Idle,Attack};
@@ -23,7 +25,7 @@ public class Unit_Manager : MonoBehaviour
     protected float hitTime,hitNTime;
     protected int hitEnemy;
     protected bool icy;
-
+    public int PlayerNum;
     Color PrevColor;
     protected virtual void Start()
     {
@@ -34,6 +36,13 @@ public class Unit_Manager : MonoBehaviour
         hitTime = 0.5f;
         hitEnemy = 0;
         Board_Manager.Initialize += Init;
+
+        int PE = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 1;
+        transform.position = WarBoard_Manager.m_Instance.SpawnPoints[PE].position;
+        transform.parent = WarBoard_Manager.m_Instance.SpawnPoints[PE];
+        camp = PE == 0 ? 1 : -1;
+        GetComponent<SpriteRenderer>().flipX = PE == 0 ? true : false;
+        
     }
 
     // Update is called once per frame
@@ -103,6 +112,14 @@ public class Unit_Manager : MonoBehaviour
 
     virtual public void Hit(int Damage)
     {
+        if(!PhotonNetwork.IsMasterClient) return;
+
+        photonView.RPC("RPCHit",RpcTarget.All,Damage);
+    }
+
+    [PunRPC]
+    public void RPCHit(int Damage)
+    {
         PrevColor = GetComponent<SpriteRenderer>().color;
         HP -= Damage;
         //transform.Translate(transform.right * MoveSpeed * -camp);
@@ -120,7 +137,7 @@ public class Unit_Manager : MonoBehaviour
 
     public void Slowing(float decrease,float T)
     {
-        StartCoroutine(SlowDown(decrease,T));
+        photonView.RPC("RPCSlow",RpcTarget.All,decrease,T);
     }
     public IEnumerator SlowDown(float decrease, float T)
     {
@@ -137,6 +154,11 @@ public class Unit_Manager : MonoBehaviour
         yield return null;
     }
 
+    [PunRPC]
+    public void RPCSlow(float decrease,float T)
+    {
+        StartCoroutine(SlowDown(decrease,T));
+    }
     public void Init()
     {
         Board_Manager.Initialize -= Init;

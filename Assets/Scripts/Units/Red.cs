@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Red : Unit_Manager
 {
@@ -26,4 +27,5 @@ public class Red : Unit_Manager
             ATime = 0;
         }
     }
+
 }

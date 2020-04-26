@@ -14,7 +14,7 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
      m_Instance = this;
-     Time.timeScale = 0;   
+     //Time.timeScale = 0;   
     }
 
     // Update is called once per frame

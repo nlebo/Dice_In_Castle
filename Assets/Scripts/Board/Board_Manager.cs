@@ -20,6 +20,8 @@ public class Board_Manager : MonoBehaviour
     float nTime;
     int Click_Count;
 
+    public bool Stop;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +30,13 @@ public class Board_Manager : MonoBehaviour
         m_Instance = this;
         UI = UI_Manager.m_Instance;
         Initialize += Init;
+        Stop =true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Stop) return;
         nTime += Time.deltaTime;
         if(nTime>= 1){ 
             UpCoin(1,0);

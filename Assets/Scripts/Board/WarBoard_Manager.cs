@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class WarBoard_Manager : MonoBehaviour
+public class WarBoard_Manager : MonoBehaviourPun
 {
     public static WarBoard_Manager m_Instance;
     public Unit_Manager[] Units;
     public Transform[] SpawnPoints;
     Camera_Manager Cam;
+    Unit_Manager U;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +26,8 @@ public class WarBoard_Manager : MonoBehaviour
 
     public void CreateUnit(int What,int PE,int Lv)
     {
-        Unit_Manager U = Instantiate(Units[What].gameObject,SpawnPoints[PE]).GetComponent<Unit_Manager>();
-        U.camp = PE == 0 ? 1 : -1;
-        U.GetComponent<SpriteRenderer>().flipX = PE == 0 ? true : false;
+        U = PhotonNetwork.Instantiate(Units[What].gameObject.name,SpawnPoints[PE].position,Quaternion.identity).GetComponent<Unit_Manager>();
+        U.PlayerNum = PhotonNetwork.LocalPlayer.ActorNumber;
         U.LV = Lv;
     }
 
