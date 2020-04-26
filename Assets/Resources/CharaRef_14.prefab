@@ -110,6 +110,7 @@ MonoBehaviour:
   Castle: {fileID: 0}
   ATime: 0
   Attack_Delay: 1
+  PlayerNum: 0
 --- !u!50 &6381138525514986110
 Rigidbody2D:
   serializedVersion: 4
@@ -172,9 +173,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 2970959779564830699}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

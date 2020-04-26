@@ -157,6 +157,7 @@ MonoBehaviour:
   Castle: {fileID: 0}
   ATime: 0
   Attack_Delay: 1
+  PlayerNum: 0
 --- !u!114 &3812629126949850347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,9 +173,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -2149106435578650293}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

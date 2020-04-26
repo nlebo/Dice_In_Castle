@@ -157,6 +157,7 @@ MonoBehaviour:
   Castle: {fileID: 0}
   ATime: 0
   Attack_Delay: 2
+  PlayerNum: 0
   Arrow: {fileID: 6135779726850122570, guid: 807c2c2c441cd0646a89be72adc089de, type: 3}
 --- !u!114 &4064745860603036968
 MonoBehaviour:
@@ -173,9 +174,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8247218381654266166}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Room_Manager : MonoBehaviourPunCallbacks
 {
@@ -9,15 +10,26 @@ public class Room_Manager : MonoBehaviourPunCallbacks
     public Select_Dice Select_Page;
     public GameObject ready;
 
+    public Text[] ID;
     public int[] Coin;
     
     // Start is called before the first frame update
     void Start()
     {
         m_Instance = this;
-        Debug.Log(photonView.ViewID);
-        CreateSelect();
         Coin = new int[2];
+        ID[0].text = PhotonNetwork.LocalPlayer.NickName;
+
+        if (PhotonNetwork.PlayerList.Length < 2)
+            ID[1].gameObject.SetActive(false);
+        else
+            ID[1].text = PhotonNetwork.PlayerList[0].NickName;
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        ID[1].gameObject.SetActive(true);
+        ID[1].text = newPlayer.NickName;
     }
 
     // Update is called once per frame
@@ -31,12 +43,6 @@ public class Room_Manager : MonoBehaviourPunCallbacks
 
     }
 
-    public void CreateSelect()
-    {
-        if(!PhotonNetwork.IsMasterClient) return;
-
-        Select_Page = PhotonNetwork.Instantiate(Select_Page.gameObject.name,Vector3.zero,Quaternion.identity).GetComponent<Select_Dice>();
-    }
 
     
 }

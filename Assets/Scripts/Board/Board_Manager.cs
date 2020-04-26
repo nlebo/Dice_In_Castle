@@ -60,7 +60,7 @@ public class Board_Manager : MonoBehaviour
 
         Coin -=CreateCoin;
         Click_Count ++;
-        CreateCoin += Click_Count / 2;
+        //CreateCoin += Click_Count / 2;
 
         UI.UpdateText(UI.CreateText,"소환(" + CreateCoin.ToString() + ")");
         UI.UpdateText(UI.CoinText,Coin.ToString());

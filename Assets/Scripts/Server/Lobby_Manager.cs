@@ -43,11 +43,12 @@ public class Lobby_Manager : MonoBehaviourPunCallbacks
         if (!Login)
         {
             PhotonNetwork.GameVersion = gameVersion;
-            PhotonNetwork.NickName = NickName.text == "" ? "Test" : NickName.text;
+            PhotonNetwork.LocalPlayer.NickName = NickName.text == "" ? "Test" : NickName.text;
             PhotonNetwork.ConnectUsingSettings();
 
             JoinButton.interactable = false;
             connectionInfo.text = "Connection To Master Server";
+            
             return;
         }
 

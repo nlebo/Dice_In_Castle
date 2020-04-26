@@ -5,7 +5,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Select_Dice : MonoBehaviourPun
+public class Select_Dice : MonoBehaviourPunCallbacks
 {
     Board_Manager Board;
     public List<int> Choose;
@@ -20,14 +20,6 @@ public class Select_Dice : MonoBehaviourPun
     void Start()
     {
 
-        Select_Panel = GameObject.Find("Select_Panel");
-        Ready_Button = Select_Panel.transform.GetChild(Select_Panel.transform.childCount - 1).GetComponent<Button>();
-        Ready_Button.onClick.AddListener(Ready);
-        for(int i =0; i<T.Length;i++)
-        {
-            T[i] = Select_Panel.transform.GetChild(i).GetChild(1).GetComponent<Toggle>();
-        }
-
         Board = Board_Manager.m_Instance;
         Choose.Add(0);
         Choose.Add(1);
@@ -37,6 +29,27 @@ public class Select_Dice : MonoBehaviourPun
 
         ready = 0;
         Board_Manager.Initialize += Init;
+        
+        if(PhotonNetwork.PlayerList.Length >= 2){ 
+            Ready_Button.interactable = true;
+            Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else{
+            Ready_Button.interactable = false;
+            Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if(PhotonNetwork.PlayerList.Length >= 2){ 
+            Ready_Button.interactable = true;
+            Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else{
+            Ready_Button.interactable = false;
+            Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     public void InAndOut(int i)

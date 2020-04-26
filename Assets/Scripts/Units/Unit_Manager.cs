@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 
-public class Unit_Manager : MonoBehaviourPun
+public class Unit_Manager : MonoBehaviourPun , IPunObservable
 {
     // Start is called before the first frame update
     public enum State{Idle,Attack};
     public State _State;
+    int compulsion_State;
     public int camp;
     public float MoveSpeed, Attack_Range;
 
@@ -42,6 +44,7 @@ public class Unit_Manager : MonoBehaviourPun
         transform.parent = WarBoard_Manager.m_Instance.SpawnPoints[PE];
         camp = PE == 0 ? 1 : -1;
         GetComponent<SpriteRenderer>().flipX = PE == 0 ? true : false;
+        compulsion_State = 0;
         
     }
 
@@ -60,6 +63,8 @@ public class Unit_Manager : MonoBehaviourPun
             {
                 Enemy.Add(hit[i].transform.GetComponent<Unit_Manager>());
                 _State = State.Attack;
+
+
                 hitEnemy++;
             }
             else if(hit[i].transform.gameObject.layer == 9 && hit[i].transform.GetComponent<Castle_Manager>().Camp != camp)
@@ -67,6 +72,16 @@ public class Unit_Manager : MonoBehaviourPun
                 Castle = hit[i].transform.GetComponent<Castle_Manager>();
                 _State = State.Attack;
             }
+        }
+
+
+        if(!PhotonNetwork.IsMasterClient)
+            _State = compulsion_State == 0 ? State.Idle : _State;
+
+        else if(_State == State.Idle ? (compulsion_State == 1) : (compulsion_State == 0))
+        {   
+            compulsion_State = compulsion_State == 0 ? 1 : 0;
+            photonView.RPC("RPCCompulsion",RpcTarget.Others,compulsion_State);
         }
 
         if(_hit)
@@ -89,6 +104,13 @@ public class Unit_Manager : MonoBehaviourPun
         {
             Attack();
         }
+
+        
+    }
+    [PunRPC]
+    public void RPCCompulsion(int input)
+    {
+        compulsion_State = input;
     }
 
     virtual public void Attack()
@@ -110,28 +132,37 @@ public class Unit_Manager : MonoBehaviourPun
         }
     }
 
-    virtual public void Hit(int Damage)
+    virtual public void Hit(int _Damage)
     {
         if(!PhotonNetwork.IsMasterClient) return;
 
-        photonView.RPC("RPCHit",RpcTarget.All,Damage);
+        
+        photonView.RPC("RPCHit",RpcTarget.All,_Damage);
+
+        if(HP - _Damage <= 0) photonView.RPC("RPCDeath",RpcTarget.All);
     }
 
     [PunRPC]
-    public void RPCHit(int Damage)
+    public void RPCHit(int _Damage)
     {
         PrevColor = GetComponent<SpriteRenderer>().color;
-        HP -= Damage;
+        HP -= _Damage;
         //transform.Translate(transform.right * MoveSpeed * -camp);
         _hit = true;
         hitNTime = 0;
-        if(HP <= 0) Death();
+    }
+
+    [PunRPC]
+    public void RPCDeath()
+    {
+        Death();
     }
 
     virtual protected void Death()
     {
         if(camp == -1) Board_Manager.m_Instance.UpCoin(1);
         Board_Manager.Initialize -= Init;
+        
         Destroy(gameObject);
     }
 
@@ -163,5 +194,12 @@ public class Unit_Manager : MonoBehaviourPun
     {
         Board_Manager.Initialize -= Init;
         Destroy(gameObject);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting && PhotonNetwork.IsMasterClient) stream.SendNext(HP);
+        else if(stream.IsReading && !PhotonNetwork.IsMasterClient) HP = (int)stream.ReceiveNext();
+
     }
 }
