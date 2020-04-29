@@ -9,6 +9,8 @@ TagManager:
   - castle
   - Ore
   - EOre
+  - Miner
+  - MinerGuard
   layers:
   - Default
   - TransparentFX

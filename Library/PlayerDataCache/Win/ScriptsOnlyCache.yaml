@@ -13,6 +13,8 @@ ScriptsOnlyBuild:
     - IceSpell
     - Input_Manager
     - Lobby_Manager
+    - Miner
+    - MinerGuarder
     - Player_Controller
     - Projectile_Manager
     - Red
@@ -186,6 +188,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11996}
     - Class: 114
       Script: {instanceID: 12008}
+    - Class: 114
+      Script: {instanceID: 17256}
+    - Class: 114
+      Script: {instanceID: 98506}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -311,6 +317,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11996}
     - Class: 114
       Script: {instanceID: 12008}
+    - Class: 114
+      Script: {instanceID: 17256}
+    - Class: 114
+      Script: {instanceID: 98506}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -402,7 +412,7 @@ ScriptsOnlyBuild:
     className: GraphicToggleIsOnTransition
   - hash:
       serializedVersion: 2
-      Hash: d25b6b98edc7bf8c00e15118d57f9b6a
+      Hash: 70c65b8cc566bec4e7bb6ba28506c457
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Castle_Manager
@@ -426,7 +436,7 @@ ScriptsOnlyBuild:
     className: ChatGui
   - hash:
       serializedVersion: 2
-      Hash: 24c33da6459b88f586448203e25aacc3
+      Hash: 8d9941aad8b3775a16c885da39428d5f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: WarBoard_Manager
@@ -648,7 +658,7 @@ ScriptsOnlyBuild:
     className: PhotonHandler
   - hash:
       serializedVersion: 2
-      Hash: 30925aa92037361cc2228dbbc0f092f4
+      Hash: 108ee5c3544cab54ffa40cc85a73a7cc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Yellow_Unit
@@ -840,7 +850,7 @@ ScriptsOnlyBuild:
     className: BestRegionInPrefsProperty
   - hash:
       serializedVersion: 2
-      Hash: e5496f41dc353333ded35afac67646f6
+      Hash: 8c7ffa0c80ecf26fa6935377d475607e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UI_Manager
@@ -852,7 +862,7 @@ ScriptsOnlyBuild:
     className: CurrentRoomPlayerTtlProperty
   - hash:
       serializedVersion: 2
-      Hash: ba77a27620368676d1b903fca30b4eb4
+      Hash: 41df6dcb39f0def96ba1479b8c7237e4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Select_Dice
@@ -1194,7 +1204,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: 08367b0c14d96a74f60a1f81d9e70a57
+      Hash: a5d7ead08d1088b767f2f3f4bb8c5845
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Board_Manager
@@ -1242,7 +1252,7 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 2f255e0bb08d336c796cb96de8e11530
+      Hash: c76038d00778f1f65e32d007deec8415
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Room_Manager
@@ -1762,6 +1772,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 30925aa92037361cc2228dbbc0f092f4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Miner
+  - hash:
+      serializedVersion: 2
+      Hash: 108ee5c3544cab54ffa40cc85a73a7cc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MinerGuarder
   platform: 5
   scenePathNames:
   - Assets/Scenes/LogIn.unity

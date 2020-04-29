@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 212327661687109368}
   - component: {fileID: 6477293640305911579}
   - component: {fileID: 6784935812190278395}
-  - component: {fileID: -2149106435578650293}
   - component: {fileID: 3812629126949850347}
+  - component: {fileID: -5279969665915025379}
   m_Layer: 8
   m_Name: CharaRef_01
   m_TagString: Unit
@@ -131,33 +131,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.72, y: 1.07}
   m_EdgeRadius: 0
---- !u!114 &-2149106435578650293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252300943239936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428725cb4a4d9784caab245ac052c68f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _State: 0
-  camp: 0
-  MoveSpeed: 1
-  Attack_Range: 1
-  lay:
-    serializedVersion: 2
-    m_Bits: 768
-  Damage: 2
-  HP: 10
-  LV: 0
-  Enemy: []
-  Castle: {fileID: 0}
-  ATime: 0
-  Attack_Delay: 1
-  PlayerNum: 0
 --- !u!114 &3812629126949850347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +149,34 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: -2149106435578650293}
+  - {fileID: -5279969665915025379}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-5279969665915025379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252300943239936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7811c9036775e7040af2245ab0bef96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _State: 0
+  camp: 0
+  MoveSpeed: 2
+  Attack_Range: 1
+  lay:
+    serializedVersion: 2
+    m_Bits: 256
+  Damage: 5
+  HP: 15
+  LV: 0
+  Enemy: []
+  Castle: {fileID: 0}
+  ATime: 1
+  Attack_Delay: 1
+  PlayerNum: 0

@@ -14,11 +14,11 @@ public class Board_Manager : MonoBehaviour
     int Coin;
 
     [SerializeField]
-    private int CreateCoin;
+    private int CreateCoin,MinerCoin,BaseCoin;
 
     UI_Manager UI;
     float nTime;
-    int Click_Count;
+    int Click_Dice_Count,Click_Miner_Count;
 
     public bool Stop;
 
@@ -31,6 +31,7 @@ public class Board_Manager : MonoBehaviour
         UI = UI_Manager.m_Instance;
         Initialize += Init;
         Stop =true;
+        BaseCoin = CreateCoin;
     }
 
     // Update is called once per frame
@@ -42,6 +43,7 @@ public class Board_Manager : MonoBehaviour
             UpCoin(1,0);
             nTime =0;
         }
+
     }
 
     public void CreateDice()
@@ -59,11 +61,12 @@ public class Board_Manager : MonoBehaviour
         Grids[where] = 1;
 
         Coin -=CreateCoin;
-        Click_Count ++;
-        //CreateCoin += Click_Count / 2;
+        Click_Dice_Count ++;
+        CreateCoin = BaseCoin + Click_Dice_Count / 10;
 
         UI.UpdateText(UI.CreateText,"소환(" + CreateCoin.ToString() + ")");
         UI.UpdateText(UI.CoinText,Coin.ToString());
+        
 
         Count++;
 
@@ -86,6 +89,16 @@ public class Board_Manager : MonoBehaviour
         return;
     }
     
+    public void CreateMiner()
+    {
+        if(Coin < MinerCoin || WarBoard_Manager.m_Instance.UnitCount[0] >= WarBoard_Manager.m_Instance.MaxUnit[0]) return;
+
+        Coin -= MinerCoin;
+        Click_Miner_Count++;
+        MinerCoin = BaseCoin + Click_Miner_Count / 10;
+        WarBoard_Manager.m_Instance.CreateMiner(0,0,0);
+        UI.UpdateText(UI.CoinText,Coin.ToString());
+    }
 
     public bool DeleteDice(int where)
     {
@@ -120,7 +133,7 @@ public class Board_Manager : MonoBehaviour
          UI.UpdateText(UI.CreateText,"소환(" + CreateCoin.ToString() + ")");
         UpCoin(0,0);
         nTime = 0;
-        Click_Count = 0;
+        Click_Dice_Count = 0;
 
         for(int i =0;i<Grids.Length;i++)
             DeleteDice(i);

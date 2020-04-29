@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 212327661687109368}
   - component: {fileID: 845647061207316006}
   - component: {fileID: 5396487671671043838}
-  - component: {fileID: -1647803165348138101}
+  - component: {fileID: 2495545112657682996}
   - component: {fileID: -295782906833039008}
   m_Layer: 8
   m_Name: CharaRef_13
-  m_TagString: Unit
+  m_TagString: Miner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.67, y: 1.33}
   m_EdgeRadius: 0
---- !u!114 &-1647803165348138101
+--- !u!114 &2495545112657682996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1252300943239936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7811c9036775e7040af2245ab0bef96e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ef64dcecbbbc384fbe2c38ae2be59c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _State: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: -1647803165348138101}
+  - {fileID: 2495545112657682996}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

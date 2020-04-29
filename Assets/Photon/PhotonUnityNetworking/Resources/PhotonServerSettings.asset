@@ -45,6 +45,8 @@ MonoBehaviour:
   - PRCChangeState
   - RPCDeath
   - RPCCompulsion
+  - RPCDeathCastle
+  - RPCHitCastle
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -8,6 +8,34 @@ public class Blue : Dice_Manager
     public float DecreaseSpeed;
     public float DecreaseTime;
 
+    protected override void Update()
+    {
+        if (Drag)
+        {
+            hit = null;
+            transform.position = new Vector3(MyInput.TPos.x, MyInput.TPos.y, transform.position.z);
+
+            hit = Physics2D.RaycastAll(transform.position, Vector2.zero);
+            CombineDice = null;
+            Create = false;
+            IceRange.SetActive(false);
+            for (int i = 0; i < hit.Length; i++)
+            {
+                if(hit[i].transform == transform){}
+                else if (hit[i].transform.tag == "Dice")
+                {
+                    CombineDice = hit[i].transform.GetComponent<Dice_Manager>();
+                    Create = false;
+                }
+                else if (hit[i].transform.name == "WarBoard")
+                {
+                    CombineDice = null;
+                    Create = true;
+                    IceRange.SetActive(true);
+                }
+            }
+        }
+    }
     protected override void OnMouseUp()
     {
         if(Drag){
@@ -26,42 +54,7 @@ public class Blue : Dice_Manager
                 IceRange.SetActive(false);
         }
     }
-    protected override void OnTriggerEnter2D(Collider2D other)
-    {
-        if (Drag)
-        {
-            if (other.transform == null)
-            {
-                CombineDice = null;
-                Create = false;
-            }
-            else if (other.transform.tag == "Dice")
-            {
-                CombineDice = other.transform.GetComponent<Dice_Manager>();
-                Create = false;
-            }
-            else if (other.transform.name == "WarBoard")
-            {
-                CombineDice = null;
-                Create = true;
-                IceRange.SetActive(true);
-            }
-        }
-    }
-
-    protected override void OnTriggerExit2D(Collider2D other)
-    {
-        if (Drag)
-        {
-            if (other.transform.tag == "Dice")
-                CombineDice = null;
-            else if (other.transform.name == "WarBoard"){
-                Create = false;
-                IceRange.SetActive(false);
-            }
-        }
-    }
-    public override void WarZone()
+    public override bool WarZone()
     {
         IceSpell Spell = transform.GetChild(0).GetComponent<IceSpell>();
 
@@ -69,5 +62,6 @@ public class Blue : Dice_Manager
         {
             Spell.U[i].Slowing(DecreaseSpeed + Level * 4,DecreaseTime + Level * 0.2f);
         }
+        return true;
     }
 }

@@ -13,6 +13,8 @@ public class Select_Dice : MonoBehaviourPunCallbacks
     public Toggle[] T;
     public GameObject Select_Panel;
     public Button Ready_Button;
+
+    public Image[] Dices_Info;
     
 
     public int ready;
@@ -95,24 +97,27 @@ public class Select_Dice : MonoBehaviourPunCallbacks
     }
     public void Ready()
     {
-        if(Choose.Count < 5) return;
         
+        if(Choose.Count < 5) return;
+        int[] c = new int[Choose.Count];
+
+
         for(int i =0; i<5;i++)
         {
             Board.Dices[i] = Dices[Choose[i]];
-            
+            //c[i] = Choose[i];
             //Time.timeScale = 1;
         }
 
         Ready_Button.interactable = false;
-        GetComponent<PhotonView>().RPC("RPCCompleteReady",RpcTarget.AllBuffered);
+        GetComponent<PhotonView>().RPC("RPCCompleteReady",RpcTarget.AllBuffered,PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     [PunRPC]
-    public void RPCCompleteReady()
+    public void RPCCompleteReady(int PlayerNum)
     {
-        Debug.Log("Call RPC");
         ready++;
+        int where = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 5;
 
         if(ready>=2){
          Time.timeScale = 1;

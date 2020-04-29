@@ -10,6 +10,7 @@ public class UI_Manager : MonoBehaviour
     public Text CoinText;
     public Text_Manager UpCoinText;
     public Text CreateText;
+    public Text MaxNowUnit;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +33,10 @@ public class UI_Manager : MonoBehaviour
     {
         if(Help.activeInHierarchy)
         {
-            Time.timeScale=1;
             Help.SetActive(false);
         }
         else
         {
-            Time.timeScale = 0;
             Help.SetActive(true);
         }
     }

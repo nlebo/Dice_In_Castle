@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4421900341329478}
   - component: {fileID: 212327661687109368}
-  - component: {fileID: -817537494383925729}
   - component: {fileID: -2388866781009609643}
   - component: {fileID: 3367239114696509787}
   - component: {fileID: 6009584996507936822}
+  - component: {fileID: -1699910167546968469}
   m_Layer: 8
   m_Name: CharaRef_06
-  m_TagString: Unit
+  m_TagString: MinerGuard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,33 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-817537494383925729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252300943239936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428725cb4a4d9784caab245ac052c68f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _State: 0
-  camp: 0
-  MoveSpeed: 1
-  Attack_Range: 1
-  lay:
-    serializedVersion: 2
-    m_Bits: 768
-  Damage: 2
-  HP: 10
-  LV: 0
-  Enemy: []
-  Castle: {fileID: 0}
-  ATime: 0
-  Attack_Delay: 1
-  PlayerNum: 0
 --- !u!50 &-2388866781009609643
 Rigidbody2D:
   serializedVersion: 4
@@ -176,7 +149,34 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: -817537494383925729}
+  - {fileID: -1699910167546968469}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-1699910167546968469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252300943239936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ebfd8f3063838d49a1d111c3ef4851c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _State: 0
+  camp: 0
+  MoveSpeed: 1
+  Attack_Range: 1
+  lay:
+    serializedVersion: 2
+    m_Bits: 256
+  Damage: 5
+  HP: 40
+  LV: 0
+  Enemy: []
+  Castle: {fileID: 0}
+  ATime: 0
+  Attack_Delay: 5
+  PlayerNum: 0

@@ -11,7 +11,7 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
     // Start is called before the first frame update
     public enum State{Idle,Attack};
     public State _State;
-    int compulsion_State;
+    protected int compulsion_State;
     public int camp;
     public float MoveSpeed, Attack_Range;
 
@@ -93,12 +93,15 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
             {
                 hitNTime = 0;
                 _hit = false;
-                GetComponent<SpriteRenderer>().color = icy ? new Color(179.0f/255,194.0f/255,1,1) : Color.white;
+                GetComponent<SpriteRenderer>().color = icy ? new Color(179.0f / 255, 194.0f / 255, 1, 1) : Color.white;
             }
         }
 
-        if(_State == State.Idle)
-        transform.Translate(transform.right * MoveSpeed * Time.deltaTime * camp);
+        if (_State == State.Idle)
+        {
+            ATime = 0;
+            transform.Translate(transform.right * MoveSpeed * Time.deltaTime * camp);
+        }
 
         else if(_State == State.Attack)
         {
@@ -162,7 +165,7 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
     {
         if(camp == -1) Board_Manager.m_Instance.UpCoin(1);
         Board_Manager.Initialize -= Init;
-        
+        WarBoard_Manager.m_Instance.UnitCount[camp == 1 ? 0 : 1]--;
         Destroy(gameObject);
     }
 

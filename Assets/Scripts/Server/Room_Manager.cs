@@ -10,6 +10,8 @@ public class Room_Manager : MonoBehaviourPunCallbacks
     public Select_Dice Select_Page;
     public GameObject ready;
 
+    public Castle_Manager[] Castle;
+
     public Text[] ID;
     public int[] Coin;
     
@@ -32,15 +34,19 @@ public class Room_Manager : MonoBehaviourPunCallbacks
         ID[1].text = newPlayer.NickName;
     }
 
-    // Update is called once per frame
-    void Update()
+    [PunRPC]
+    void RPCHitCastle(int Damage, int HitCastle)
     {
-        
+        int hit = HitCastle == PhotonNetwork.LocalPlayer.ActorNumber-1 ? 0 : 1;
+        Castle[hit].HP -= Damage;
+        Castle[hit].HP_Bar.fillAmount = 1 - (float)Castle[hit].HP/Castle[hit].MaxHP;
     }
 
-    public void Ready()
+    [PunRPC]
+    void RPCDeathCastle()
     {
-
+        PhotonNetwork.LeaveRoom(true);
+        PhotonNetwork.LoadLevel("LogIn");
     }
 
 
