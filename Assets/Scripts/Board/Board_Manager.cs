@@ -38,11 +38,11 @@ public class Board_Manager : MonoBehaviour
     void Update()
     {
         if(Stop) return;
-        nTime += Time.deltaTime;
-        if(nTime>= 1){ 
-            UpCoin(1,0);
-            nTime =0;
-        }
+        // nTime += Time.deltaTime;
+        // if(nTime>= 1){ 
+        //     UpCoin(1,0);
+        //     nTime =0;
+        // }
 
     }
 

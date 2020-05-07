@@ -32,27 +32,27 @@ public class Select_Dice : MonoBehaviourPunCallbacks
         ready = 0;
         Board_Manager.Initialize += Init;
         
-        if(PhotonNetwork.PlayerList.Length >= 2){ 
-            Ready_Button.interactable = true;
-            Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        else{
-            Ready_Button.interactable = false;
-            Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
-        }
+        // if(PhotonNetwork.PlayerList.Length >= 2){ 
+        //     Ready_Button.interactable = true;
+        //     Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
+        // }
+        // else{
+        //     Ready_Button.interactable = false;
+        //     Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
+        // }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        if(PhotonNetwork.PlayerList.Length >= 2){ 
-            Ready_Button.interactable = true;
-            Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        else{
-            Ready_Button.interactable = false;
-            Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
-        }
-    }
+    // public override void OnPlayerEnteredRoom(Player newPlayer)
+    // {
+    //     if(PhotonNetwork.PlayerList.Length >= 2){ 
+    //         Ready_Button.interactable = true;
+    //         Ready_Button.transform.GetChild(0).gameObject.SetActive(true);
+    //     }
+    //     else{
+    //         Ready_Button.interactable = false;
+    //         Ready_Button.transform.GetChild(0).gameObject.SetActive(false);
+    //     }
+    // }
 
     public void InAndOut(int i)
     {
@@ -97,12 +97,12 @@ public class Select_Dice : MonoBehaviourPunCallbacks
     }
     public void Ready()
     {
-        
-        if(Choose.Count < 5) return;
+
+        if (Choose.Count < 5) return;
         int[] c = new int[Choose.Count];
 
 
-        for(int i =0; i<5;i++)
+        for (int i = 0; i < 5; i++)
         {
             Board.Dices[i] = Dices[Choose[i]];
             //c[i] = Choose[i];
@@ -110,19 +110,23 @@ public class Select_Dice : MonoBehaviourPunCallbacks
         }
 
         Ready_Button.interactable = false;
-        GetComponent<PhotonView>().RPC("RPCCompleteReady",RpcTarget.AllBuffered,PhotonNetwork.LocalPlayer.ActorNumber);
+        Time.timeScale = 1;
+        Select_Panel.SetActive(false);
+        //Board.Stop = false;
+        RoundManager.m_Instance.ReadyForRound();
+        //GetComponent<PhotonView>().RPC("RPCCompleteReady",RpcTarget.AllBuffered,PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
-    [PunRPC]
-    public void RPCCompleteReady(int PlayerNum)
-    {
-        ready++;
-        int where = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 5;
+    // [PunRPC]
+    // public void RPCCompleteReady(int PlayerNum)
+    // {
+    //     ready++;
+    //     int where = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 5;
 
-        if(ready>=2){
-         Time.timeScale = 1;
-         Select_Panel.SetActive(false);
-         Board.Stop = false;
-        }
-    }
+    //     if(ready>=2){
+    //      Time.timeScale = 1;
+    //      Select_Panel.SetActive(false);
+    //      Board.Stop = false;
+    //     }
+    // }
 }

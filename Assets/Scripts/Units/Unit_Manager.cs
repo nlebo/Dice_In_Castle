@@ -39,11 +39,11 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         hitEnemy = 0;
         Board_Manager.Initialize += Init;
 
-        int PE = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 1;
-        transform.position = WarBoard_Manager.m_Instance.SpawnPoints[PE].position;
-        transform.parent = WarBoard_Manager.m_Instance.SpawnPoints[PE];
-        camp = PE == 0 ? 1 : -1;
-        GetComponent<SpriteRenderer>().flipX = PE == 0 ? true : false;
+        // int PE = PlayerNum == PhotonNetwork.LocalPlayer.ActorNumber ? 0 : 1;
+        // transform.position = WarBoard_Manager.m_Instance.SpawnPoints[PE].position;
+        // transform.parent = WarBoard_Manager.m_Instance.SpawnPoints[PE];
+        camp = PlayerNum == 0 ? 1 : -1;
+        GetComponent<SpriteRenderer>().flipX = PlayerNum == 0 ? true : false;
         compulsion_State = 0;
         
     }
@@ -75,14 +75,14 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         }
 
 
-        if(!PhotonNetwork.IsMasterClient)
-            _State = compulsion_State == 0 ? State.Idle : _State;
+        // if(!PhotonNetwork.IsMasterClient)
+        //     _State = compulsion_State == 0 ? State.Idle : _State;
 
-        else if(_State == State.Idle ? (compulsion_State == 1) : (compulsion_State == 0))
-        {   
-            compulsion_State = compulsion_State == 0 ? 1 : 0;
-            photonView.RPC("RPCCompulsion",RpcTarget.Others,compulsion_State);
-        }
+        // else if(_State == State.Idle ? (compulsion_State == 1) : (compulsion_State == 0))
+        // {   
+        //     compulsion_State = compulsion_State == 0 ? 1 : 0;
+        //     photonView.RPC("RPCCompulsion",RpcTarget.Others,compulsion_State);
+        // }
 
         if(_hit)
         {
@@ -110,11 +110,11 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
 
         
     }
-    [PunRPC]
-    public void RPCCompulsion(int input)
-    {
-        compulsion_State = input;
-    }
+    // [PunRPC]
+    // public void RPCCompulsion(int input)
+    // {
+    //     compulsion_State = input;
+    // }
 
     virtual public void Attack()
     {
@@ -140,19 +140,27 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         if(!PhotonNetwork.IsMasterClient) return;
 
         
-        photonView.RPC("RPCHit",RpcTarget.All,_Damage);
-
-        if(HP - _Damage <= 0) photonView.RPC("RPCDeath",RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void RPCHit(int _Damage)
-    {
+        //photonView.RPC("RPCHit",RpcTarget.All,_Damage);
         PrevColor = GetComponent<SpriteRenderer>().color;
         HP -= _Damage;
         //transform.Translate(transform.right * MoveSpeed * -camp);
         _hit = true;
         hitNTime = 0;
+
+        if(HP - _Damage <= 0){ 
+            //photonView.RPC("RPCDeath",RpcTarget.All);
+            Death();
+        }
+    }
+
+    [PunRPC]
+    public void RPCHit(int _Damage)
+    {
+        // PrevColor = GetComponent<SpriteRenderer>().color;
+        // HP -= _Damage;
+        // //transform.Translate(transform.right * MoveSpeed * -camp);
+        // _hit = true;
+        // hitNTime = 0;
     }
 
     [PunRPC]
@@ -166,12 +174,16 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         if(camp == -1) Board_Manager.m_Instance.UpCoin(1);
         Board_Manager.Initialize -= Init;
         WarBoard_Manager.m_Instance.UnitCount[camp == 1 ? 0 : 1]--;
+        if (camp == 0)
+            UI_Manager.m_Instance.UpdateText(UI_Manager.m_Instance.MaxNowUnit, $"({WarBoard_Manager.m_Instance.UnitCount[0]}/{WarBoard_Manager.m_Instance.MaxUnit[0]})");
+            
         Destroy(gameObject);
     }
 
     public void Slowing(float decrease,float T)
     {
-        photonView.RPC("RPCSlow",RpcTarget.All,decrease,T);
+        //photonView.RPC("RPCSlow",RpcTarget.All,decrease,T);
+        StartCoroutine(SlowDown(decrease,T));
     }
     public IEnumerator SlowDown(float decrease, float T)
     {
@@ -188,11 +200,11 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         yield return null;
     }
 
-    [PunRPC]
-    public void RPCSlow(float decrease,float T)
-    {
-        StartCoroutine(SlowDown(decrease,T));
-    }
+    // [PunRPC]
+    // public void RPCSlow(float decrease,float T)
+    // {
+    //     StartCoroutine(SlowDown(decrease,T));
+    // }
     public void Init()
     {
         Board_Manager.Initialize -= Init;

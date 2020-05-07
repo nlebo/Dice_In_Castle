@@ -16,11 +16,14 @@ public class Dice_Manager : MonoBehaviour
     protected bool Create = false;
     protected Dice_Manager CombineDice;
 
+    protected RoundManager roundManager;
+
     protected RaycastHit2D[] hit;
     // Start is called before the first frame update
     void Start()
     {
         MyInput = Input_Manager.m_Instance;
+        roundManager = RoundManager.m_Instance;
         
     }
 
@@ -74,7 +77,9 @@ public class Dice_Manager : MonoBehaviour
 
     public virtual bool WarZone()
     {
-        return WarBoard_Manager.m_Instance.CreateUnit(kind_id,0,Level);
+        if(!roundManager.RoundReady) return false;
+
+        return WarBoard_Manager.m_Instance.AddSpawnList(kind_id,0,Level);
     }
     public void Combine(Dice_Manager dice)
     {

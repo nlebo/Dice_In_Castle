@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class Castle_Manager : MonoBehaviourPunCallbacks
 {
@@ -21,11 +22,21 @@ public class Castle_Manager : MonoBehaviourPunCallbacks
 
     public void Hit(int Damage)
     {
-        if(!PhotonNetwork.IsMasterClient) return; 
+        // if(!PhotonNetwork.IsMasterClient) return; 
 
-        Room.GetComponent<PhotonView>().RPC("RPCHitCastle",RpcTarget.All,Damage,gameObject.name == "PlayerC" ? 0 : 1);
+        // Room.GetComponent<PhotonView>().RPC("RPCHitCastle",RpcTarget.All,Damage,gameObject.name == "PlayerC" ? 0 : 1);
 
-        if(HP<= 0) Room.GetComponent<PhotonView>().RPC("RPCDeathCastle",RpcTarget.All);
+        // if(HP<= 0) Room.GetComponent<PhotonView>().RPC("RPCDeathCastle",RpcTarget.All);
+
+        HP -= Damage;
+        HP_Bar.fillAmount = 1 - (float)HP/MaxHP;
+    }
+
+    public void Death()
+    {
+        // PhotonNetwork.LeaveRoom(true);
+        // PhotonNetwork.LoadLevel("LogIn");
+        SceneManager.LoadScene("Login");
     }
 
     public void Init()
