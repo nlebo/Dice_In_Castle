@@ -13,6 +13,7 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
     public State _State;
     protected int compulsion_State;
     public int camp;
+    public int PBoard_Num;
     public float MoveSpeed, Attack_Range;
 
     public LayerMask lay;
@@ -27,6 +28,7 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
     protected float hitTime,hitNTime;
     protected int hitEnemy;
     protected bool icy;
+    public Animator Anim;
     public int PlayerNum;
     Color PrevColor;
     protected virtual void Start()
@@ -45,12 +47,14 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         camp = PlayerNum == 0 ? 1 : -1;
         GetComponent<SpriteRenderer>().flipX = PlayerNum == 0 ? true : false;
         compulsion_State = 0;
+        Anim = GetComponent<Animator>();
         
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        if(Board_Manager.m_Instance.Stop) return;
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position + Vector3.up * 0.5f,transform.right * camp, Attack_Range,lay);
         
         _State = State.Idle;
@@ -99,12 +103,14 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
 
         if (_State == State.Idle)
         {
+            if(!Anim.GetBool("Walk")) Anim.SetBool("Walk",true);
             ATime = 0;
             transform.Translate(transform.right * MoveSpeed * Time.deltaTime * camp);
         }
 
         else if(_State == State.Attack)
         {
+            if(Anim.GetBool("Walk")) Anim.SetBool("Walk",false);
             Attack();
         }
 
@@ -129,17 +135,19 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
 
             if (Enemy.Count > 0)
                 Enemy[0].Hit(Damage);
-            else
+            else{
                 Castle.Hit(Damage);
+                Death();
+            }
             ATime = 0;
         }
     }
 
     virtual public void Hit(int _Damage)
     {
-        if(!PhotonNetwork.IsMasterClient) return;
+        // if(!PhotonNetwork.IsMasterClient) return;
 
-        
+       
         //photonView.RPC("RPCHit",RpcTarget.All,_Damage);
         PrevColor = GetComponent<SpriteRenderer>().color;
         HP -= _Damage;
@@ -151,6 +159,8 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
             //photonView.RPC("RPCDeath",RpcTarget.All);
             Death();
         }
+        else
+             Instantiate(FX_Manager.m_Instance.Hit,transform.position + FX_Manager.m_Instance.Hit.transform.position,Quaternion.identity);
     }
 
     [PunRPC]
@@ -174,9 +184,11 @@ public class Unit_Manager : MonoBehaviourPun , IPunObservable
         if(camp == -1) Board_Manager.m_Instance.UpCoin(1);
         Board_Manager.Initialize -= Init;
         WarBoard_Manager.m_Instance.UnitCount[camp == 1 ? 0 : 1]--;
-        if (camp == 0)
+        if (camp == 1){
             UI_Manager.m_Instance.UpdateText(UI_Manager.m_Instance.MaxNowUnit, $"({WarBoard_Manager.m_Instance.UnitCount[0]}/{WarBoard_Manager.m_Instance.MaxUnit[0]})");
-            
+            WarBoard_Manager.m_Instance.DeathUnit(PBoard_Num);
+        }
+        Instantiate(FX_Manager.m_Instance.Bomb,transform.position + FX_Manager.m_Instance.Hit.transform.position,Quaternion.identity);
         Destroy(gameObject);
     }
 

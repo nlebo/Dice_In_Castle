@@ -154,4 +154,5 @@ MonoBehaviour:
   - {fileID: 6985657302283981372, guid: db8aa5267af2c4f4bbdd9b2ed65159fd, type: 3}
   Level: 0
   where: 0
-  UPCOIN: 3
+  Active: 1
+  UPCOIN: 2

@@ -22,8 +22,10 @@ public class Red : Unit_Manager
                     Enemy[i].Hit(Damage);
                 }
             }
-            if(Castle != null)
+            if(Castle != null){
                 Castle.Hit(Damage);
+                Death();
+            }
             ATime = 0;
         }
     }

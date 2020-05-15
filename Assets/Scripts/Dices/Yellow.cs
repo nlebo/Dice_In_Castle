@@ -5,8 +5,24 @@ using UnityEngine;
 public class Yellow : Dice_Manager
 {
     public int UPCOIN;
-    // public override void WarZone()
-    // {
-    //     Board_Manager.m_Instance.UpCoin(UPCOIN + Level * UPCOIN);
-    // }
+    
+    protected override void Start()
+    {   
+        base.Start();
+        RoundManager.R_Finish += UpCoin;
+    }
+
+    public void UpCoin()
+    {
+        Board_Manager.m_Instance.UpCoin(UPCOIN + (Level * 2) );
+    }
+
+    private void OnDestroy() {
+        RoundManager.R_Finish -= UpCoin;
+    }
+
+    public override bool WarZone()
+    {
+        return false;
+    }
 }

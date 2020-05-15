@@ -11,7 +11,7 @@ public class Board_Manager : MonoBehaviour
     public Dice_Manager[] Dices;
     public int[] Grids;
     public int Count = 0;
-    int Coin;
+    public int Coin;
 
     [SerializeField]
     private int CreateCoin,MinerCoin,BaseCoin;
@@ -58,11 +58,38 @@ public class Board_Manager : MonoBehaviour
 
         int what = Random.Range(0,Dices.Length);
         Instantiate(Dices[what].gameObject,SpawnPos[where]).GetComponent<Dice_Manager>().where = where;
-        Grids[where] = 1;
+        Instantiate(FX_Manager.m_Instance.Create_Dice,SpawnPos[where].position + FX_Manager.m_Instance.Create_Dice.transform.position,Quaternion.identity);
+        Grids[where] = what + 1;
 
         Coin -=CreateCoin;
         Click_Dice_Count ++;
-        CreateCoin = BaseCoin + Click_Dice_Count / 10;
+        //CreateCoin = BaseCoin + Click_Dice_Count / 10;
+
+        UI.UpdateText(UI.CreateText,"소환(" + CreateCoin.ToString() + ")");
+        UI.UpdateText(UI.CoinText,Coin.ToString());
+        
+
+        Count++;
+
+        return;
+    }
+
+    public void CreateDice(int Lv)
+    {
+        if(Count >= SpawnPos.Length || Coin < CreateCoin) return;
+        
+        int where = Random.Range(0,Grids.Length);
+        while(Grids[where] != 0)
+        {
+            where = where + 1 >= Grids.Length ? 0 : where + 1;
+        }
+
+        int what = Random.Range(0,Dices.Length);
+        Dice_Manager dice = Instantiate(Dices[what].gameObject,SpawnPos[where]).GetComponent<Dice_Manager>();
+        dice.where = where;
+        dice.Level = Lv;
+        Instantiate(FX_Manager.m_Instance.Create_Dice,SpawnPos[where].position + FX_Manager.m_Instance.Create_Dice.transform.position,Quaternion.identity);
+        Grids[where] = what + 1;
 
         UI.UpdateText(UI.CreateText,"소환(" + CreateCoin.ToString() + ")");
         UI.UpdateText(UI.CoinText,Coin.ToString());
@@ -78,17 +105,19 @@ public class Board_Manager : MonoBehaviour
 
         int what = Random.Range(0,Dices.Length);
         Dice_Manager dice = Instantiate(Dices[what].gameObject,SpawnPos[Wh]).GetComponent<Dice_Manager>();
+        Instantiate(FX_Manager.m_Instance.Create_Dice,SpawnPos[Wh].position + FX_Manager.m_Instance.Create_Dice.transform.position,Quaternion.identity);
         dice.where = Wh;
         dice.Level = Lv;
         dice.GetComponent<SpriteRenderer>().sprite = dice.scales[Lv];
         
-        Grids[Wh] = 1;
+        Grids[Wh] = what + 1;
 
         Count++;
 
         return;
     }
     
+
     public void CreateMiner()
     {
         if(Coin < MinerCoin || WarBoard_Manager.m_Instance.UnitCount[0] >= WarBoard_Manager.m_Instance.MaxUnit[0]) return;
@@ -109,6 +138,45 @@ public class Board_Manager : MonoBehaviour
         Destroy(SpawnPos[where].GetChild(0).gameObject);
 
         return true;
+    }
+
+    public bool DeleteDice(string What)
+    {
+
+        int what;
+        switch(What)
+        {
+            case "Blue" :
+            what = 4;
+            break;
+            default :
+            what = 0;
+            break;
+        }
+        int O = -1;
+        int lv = 8;
+        for(int i =0; i<Grids.Length;i++)
+        {
+            if(Grids[i] == what)
+            {
+                Dice_Manager d = SpawnPos[i].GetComponentInChildren<Dice_Manager>();
+                if(lv > d.Level)
+                {
+                    O = i;
+                    lv = d.Level;
+                }
+
+            }
+        }
+        if (O != -1)
+        {
+            Grids[O] = 0;
+            Count--;
+            Destroy(SpawnPos[O].GetChild(0).gameObject);
+            return true;
+        }
+
+        return false;
     }
 
     public void UpCoin(int up){

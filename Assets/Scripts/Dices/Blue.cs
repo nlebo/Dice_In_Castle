@@ -40,7 +40,7 @@ public class Blue : Dice_Manager
     {
         if(Drag){
             Drag = false;
-            transform.localPosition = Vector3.zero;
+            
             if(CombineDice != null)
             {
                 CombineDice.Combine(this);
@@ -52,6 +52,8 @@ public class Blue : Dice_Manager
             }
             else
                 IceRange.SetActive(false);
+
+                transform.localPosition = Vector3.zero;
         }
     }
     public override bool WarZone()
@@ -62,6 +64,7 @@ public class Blue : Dice_Manager
         {
             Spell.U[i].Slowing(DecreaseSpeed + Level * 4,DecreaseTime + Level * 0.2f);
         }
+        Instantiate(FX_Manager.m_Instance.Freeze,transform.position,FX_Manager.m_Instance.Freeze.transform.rotation);
         return true;
     }
 }

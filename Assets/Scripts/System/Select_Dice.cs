@@ -13,8 +13,6 @@ public class Select_Dice : MonoBehaviourPunCallbacks
     public Toggle[] T;
     public GameObject Select_Panel;
     public Button Ready_Button;
-
-    public Image[] Dices_Info;
     
 
     public int ready;

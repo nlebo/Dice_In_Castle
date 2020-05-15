@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6784935812190278395}
   - component: {fileID: 3812629126949850347}
   - component: {fileID: -5279969665915025379}
+  - component: {fileID: -4444680600162586533}
   m_Layer: 8
   m_Name: CharaRef_01
   m_TagString: Unit
@@ -167,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _State: 0
   camp: 0
+  PBoard_Num: 0
   MoveSpeed: 2
   Attack_Range: 1
   lay:
@@ -180,3 +182,22 @@ MonoBehaviour:
   ATime: 1
   Attack_Delay: 1
   PlayerNum: 0
+--- !u!95 &-4444680600162586533
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252300943239936}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 437ae00341b9d4146b1b966a931bcf57, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

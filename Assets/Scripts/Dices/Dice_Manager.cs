@@ -14,23 +14,38 @@ public class Dice_Manager : MonoBehaviour
     protected Input_Manager MyInput;
     protected bool Drag = false;
     protected bool Create = false;
+    public bool Active = true;
     protected Dice_Manager CombineDice;
 
     protected RoundManager roundManager;
 
     protected RaycastHit2D[] hit;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         MyInput = Input_Manager.m_Instance;
         roundManager = RoundManager.m_Instance;
+
+        if(Level >= 1)
+        switch(_Kind)
+        {
+            case Kind.Red:
+            GetComponent<SpriteRenderer>().color = Color.red;
+            break;
+            case Kind.Blue:
+            GetComponent<SpriteRenderer>().color = Color.blue;
+            break;
+            case Kind.Black:
+            GetComponent<SpriteRenderer>().color = Color.black;
+            break;
+        }
         
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (Drag)
+        if (Drag && Active)
         {
             hit = null;
             transform.position = new Vector3(MyInput.TPos.x, MyInput.TPos.y, transform.position.z);
@@ -56,6 +71,8 @@ public class Dice_Manager : MonoBehaviour
     }
 
     private void OnMouseDown() {
+
+        if(Active)
         Drag = true;
     }
 
@@ -69,8 +86,11 @@ public class Dice_Manager : MonoBehaviour
             }
             else if(Create)
             {
-                if(WarZone())
-                Board_Manager.m_Instance.DeleteDice(where);
+                if(WarZone()){
+                //Board_Manager.m_Instance.DeleteDice(where);
+                GetComponent<SpriteRenderer>().color -= new Color(0,0,0,0.5f);
+                Active = false;
+                }
             }
         }
     }
@@ -79,10 +99,12 @@ public class Dice_Manager : MonoBehaviour
     {
         if(!roundManager.RoundReady) return false;
 
-        return WarBoard_Manager.m_Instance.AddSpawnList(kind_id,0,Level);
+        return WarBoard_Manager.m_Instance.AddSpawnList(kind_id,0,Level,gameObject,where);
+        //return WarBoard_Manager.m_Instance.AddSpawnList(kind_id,0,Level);
     }
     public void Combine(Dice_Manager dice)
     {
+        if(!Active) return; 
         if(dice.Level == Level && dice._Kind == _Kind && Level < 5){
             Level++;
             Board_Manager.m_Instance.CreateDice(where,Level);
@@ -90,35 +112,4 @@ public class Dice_Manager : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        // if (Drag)
-        // {
-        //     if (other.transform == null)
-        //     {
-        //         CombineDice = null;
-        //         Create = false;
-        //     }
-        //     else if (other.transform.tag == "Dice")
-        //     {
-        //         CombineDice = other.transform.GetComponent<Dice_Manager>();
-        //         Create = false;
-        //     }
-        //     else if (other.transform.name == "WarBoard")
-        //     {
-        //         CombineDice = null;
-        //         Create = true;
-        //     }
-        // }
-    }
-    protected virtual void OnTriggerExit2D(Collider2D other)
-    {
-        // if (Drag)
-        // {
-        //     if (other.transform.tag == "Dice")
-        //         CombineDice = null;
-        //     else if (other.transform.name == "WarBoard")
-        //         Create = false;
-        // }
-    }
 }

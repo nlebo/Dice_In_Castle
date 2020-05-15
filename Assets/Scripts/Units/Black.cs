@@ -19,8 +19,10 @@ public class Black : Unit_Manager
 
             if (Enemy.Count > 0)
                 Enemy[0].Hit(Damage + Random.Range(0,RandomRange + 1));
-            else
+            else{
                 Castle.Hit(Damage + Random.Range(0,RandomRange + 1));
+                //Death();
+            }
             ATime = 0;
         }
     }

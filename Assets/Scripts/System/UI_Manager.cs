@@ -14,7 +14,8 @@ public class UI_Manager : MonoBehaviour
     public Text MaxNowUnit;
 
     public Text RemainPrepareTime;
-
+    public Text RoundText;
+    public GameObject DiceInfo;    
     public Image[] SpawnTiles;
     // Start is called before the first frame update
     void Start()

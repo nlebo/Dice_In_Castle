@@ -26,6 +26,7 @@ public class Arrow_Unit : Unit_Manager
                 int y = camp == 1 ? 0 : 180;
                 Projectile_Manager A = Instantiate(Arrow.gameObject,transform.position + Vector3.up * 0.5f,Arrow.transform.rotation * Quaternion.Euler(0,0,y)).GetComponent<Projectile_Manager>();
                 A.Shot(transform.position + Vector3.up * 0.5f,Castle.transform.position + Vector3.up * 0.5f,0.2f,Castle,Damage);
+                Death();
             }
             ATime = 0;
         }
